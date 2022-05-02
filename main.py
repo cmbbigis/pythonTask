@@ -65,18 +65,21 @@ class Snake(GameSprite):
 class Food(GameSprite):
     pass
 
-def Your_score(score):
+
+def your_score(score):
     font_score = pygame.font.SysFont(None, 20)
     value = font_score.render("Your Score: " + str(score), True, (0, 0, 139))
-    window.blit(value, [0, 20])
+    window.blit(value, [0, 0])
+
 
 def draw_lives(window, x, y, lives_count, img):
     for i in range(lives_count):
         img_rect = img.get_rect()
         img_rect.x = x + 12 * i
-        img_rect.y = y
+        img_rect.y = y + 12
         window.blit(img, img_rect)
         window.blit(img, img_rect)
+
 
 def our_snake(list_snake):
     for x1 in list_snake:
@@ -132,7 +135,7 @@ while run:
         snake.update(snake_size)
         snake.reset()
         food.reset()
-        Your_score(snake_length - 1)
+        your_score(snake_length - 1)
         draw_lives(window, 0, 0, lives_count, lives_img)
         snake_head = [snake.rect.x, snake.rect.y]
         snake_list.append(snake_head)
@@ -143,14 +146,14 @@ while run:
 
         for x in snake_list[:-1]:
             if x == snake_head:
-                if lives_count <= 1:
+                if lives_count < 1:
                     end = True
                     window.blit(game_over, (0, 0))
                 else:
                     lives_count -= 1
 
         if snake.rect.x > display_width or snake.rect.x < 0 or snake.rect.y > display_height or snake.rect.y < 0:
-            if lives_count <= 1:
+            if lives_count < 1:
                 end = True
                 window.blit(game_over, (0, 0))
             else:
