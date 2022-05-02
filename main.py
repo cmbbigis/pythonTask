@@ -2,6 +2,8 @@ import pygame
 import random
 from pygame import *
 
+pygame.init()
+
 
 class GameSprite(sprite.Sprite):
     def __init__(self, sprite_image, image_width, image_height, sprite_x, sprite_y, sprite_speed):
@@ -63,6 +65,10 @@ class Snake(GameSprite):
 class Food(GameSprite):
     pass
 
+def Your_score(score):
+    font_score = pygame.font.SysFont(None, 20)
+    value = font_score.render("Your Score: " + str(score), True, (0, 0, 139))
+    window.blit(value, [0, 20])
 
 def draw_lives(window, x, y, lives_count, img):
     for i in range(lives_count):
@@ -126,6 +132,7 @@ while run:
         snake.update(snake_size)
         snake.reset()
         food.reset()
+        Your_score(snake_length - 1)
         draw_lives(window, 0, 0, lives_count, lives_img)
         snake_head = [snake.rect.x, snake.rect.y]
         snake_list.append(snake_head)
