@@ -64,6 +64,14 @@ class Food(GameSprite):
     pass
 
 
+def draw_lives(window, x, y, lives_count, img):
+    for i in range(lives_count):
+        img_rect = img.get_rect()
+        img_rect.x = x + 12 * i
+        img_rect.y = y
+        window.blit(img, img_rect)
+        window.blit(img, img_rect)
+
 def our_snake(list_snake):
     for x1 in list_snake:
         snake.special_reset(x1[0], x1[1])
@@ -98,6 +106,9 @@ direction = ''
 x1_change = 0
 y1_change = 0
 
+lives_count = 3
+lives_img = transform.scale(image.load("heart.png"), (12, 12))
+
 end = False
 run = True
 
@@ -115,6 +126,7 @@ while run:
         snake.update(snake_size)
         snake.reset()
         food.reset()
+        draw_lives(window, 0, 0, lives_count, lives_img)
         snake_head = [snake.rect.x, snake.rect.y]
         snake_list.append(snake_head)
         if len(snake_list) > snake_length:
@@ -124,12 +136,18 @@ while run:
 
         for x in snake_list[:-1]:
             if x == snake_head:
-                end = True
-                window.blit(game_over, (0, 0))
+                if lives_count <= 1:
+                    end = True
+                    window.blit(game_over, (0, 0))
+                else:
+                    lives_count -= 1
 
         if snake.rect.x > display_width or snake.rect.x < 0 or snake.rect.y > display_height or snake.rect.y < 0:
-            end = True
-            window.blit(game_over, (0, 0))
+            if lives_count <= 1:
+                end = True
+                window.blit(game_over, (0, 0))
+            else:
+                lives_count -= 1
 
         display.update()
 
