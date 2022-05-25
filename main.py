@@ -101,22 +101,23 @@ class Wall(sprite.Sprite):
 
 
 def player_score(score):
-    font_score = pygame.font.SysFont("Calibri", 16)
-    value = font_score.render("Your Score: " + str(score), True, (0, 0, 139))
-    window.blit(value, [0, 0])
+    font_score = pygame.font.SysFont("Calibri", 24, True)
+    value = font_score.render("Your Score: " + str(score), True, (97, 55, 0))
+    window.blit(value, [0, 500])
 
 
 def level(current_level):
-    level_font = pygame.font.SysFont("Calibri", 26)
-    value = level_font.render("Level " + str(current_level), True, (255, 0, 0))
-    window.blit(value, [215, 0])
+    level_font = pygame.font.SysFont("Calibri", 24, True)
+    value = level_font.render("Level " + str(current_level), True, (102, 51, 0))
+    window.blit(value, [215, 500])
+    window.blit(value, [215, 500])
 
 
 def draw_lives(window, x, y, lives_count, img):
     for i in range(lives_count):
         img_rect = img.get_rect()
-        img_rect.x = x + 12 * i
-        img_rect.y = y + 12
+        img_rect.x = x + 24 * i
+        img_rect.y = y + 24
         window.blit(img, img_rect)
         window.blit(img, img_rect)
 
@@ -145,13 +146,15 @@ def respawn_other_food(food_type):
         food.reset()
 
 
-
 # Window
 display_width = 500
 display_height = 500
-window = pygame.display.set_mode((display_width, display_height))
-background = transform.scale(image.load("background.png"), (display_width, display_width))
-load = transform.scale(image.load("loading.jpg"), (display_width, display_width))
+actual_display_height = 600
+window = pygame.display.set_mode((display_width, actual_display_height))
+background = transform.scale(image.load("background.png"), (display_width, display_height))
+load = transform.scale(image.load("loading.jpg"), (display_width, display_height))
+# HUD Background
+hud_background = transform.scale(image.load("hud_background.jpg"), (display_width, 150))
 # Snake
 snake_image = 'snake.png'
 snake_x = display_width // 2
@@ -197,7 +200,7 @@ x1_change = 0
 y1_change = 0
 
 lives_count = 3
-lives_img = transform.scale(image.load("heart.png"), (12, 12))
+lives_img = transform.scale(image.load("heart.png"), (24, 24))
 
 end = False
 run = True
@@ -217,6 +220,7 @@ while run:
             run = False
 
     if not end:
+        window.blit(hud_background, (0, 500))
         window.blit(background, (0, 0))
         snake.update(snake_speed)
         snake.reset()
@@ -230,7 +234,7 @@ while run:
 
         player_score(snake_length - 1)
         level(current_level)
-        draw_lives(window, 0, 0, lives_count, lives_img)
+        draw_lives(window, 0, 510, lives_count, lives_img)
         snake_head = [snake.rect.x, snake.rect.y]
         snake_list.append(snake_head)
         if len(snake_list) > snake_length:
@@ -242,7 +246,8 @@ while run:
             if x == snake_head:
                 lives_count -= 1
 
-        if snake.rect.x > display_width or snake.rect.x < 0 or snake.rect.y > display_height or snake.rect.y < 0:
+        if snake.rect.x > display_width or snake.rect.x < 0 or snake.rect.y > display_height \
+                or snake.rect.y < 0:
             lives_count -= 1
 
         if lives_count == 0:
