@@ -254,56 +254,45 @@ while run:
             end = True
             window.blit(game_over, (0, 0))
 
+        if snake.rect.x > display_width:
+            snake.rect.x = 0
+        elif snake.rect.x < 0:
+            snake.rect.x = display_width
+        elif snake.rect.y > display_height:
+            snake.rect.y = 0
+        elif snake.rect.y < 0:
+            snake.rect.y = display_height - snake_size
+
         if sprite.collide_rect(snake, food):
-            # food.rect.x = round(random.randrange(0, display_width - snake_size) // 10.0) * 10.0
-            # food.rect.y = round(random.randrange(0, display_height - snake_size) // 10.0) * 10.0
-            # food.reset()
             respawn_other_food("food")
             snake_length += 1
             other_food_type = all_food[random.randint(0, 2)]
             respawn_other_food(other_food_type)
 
-
         if sprite.collide_rect(snake, bad_food):
-            # bad_food.rect.x = round(random.randrange(0, display_width - snake_size) // 10.0) * 10.0
-            # bad_food.rect.y = round(random.randrange(0, display_height - snake_size) // 10.0) * 10.0
-            # bad_food.reset()
+            bad_food.kill()
             if snake_length >= 1:
                 snake_length -= 1
-                # del snake_list[len(snake_list) - 1]
+                del snake_list[len(snake_list) - 1]
             else:
                 lives_count -= 1
             other_food_type = all_food[random.randint(0, 2)]
             respawn_other_food(other_food_type)
-            # food.rect.x = round(random.randrange(0, display_width - snake_size) // 10.0) * 10.0
-            # food.rect.y = round(random.randrange(0, display_height - snake_size) // 10.0) * 10.0
-            # food.reset()
             respawn_other_food("food")
 
         if sprite.collide_rect(snake, speed_up_food):
-            # speed_up_food.rect.x = round(random.randrange(0, display_width - snake_size) // 10.0) * 10.0
-            # speed_up_food.rect.y = round(random.randrange(0, display_height - snake_size) // 10.0) * 10.0
+            speed_up_food.kill()
             snake_speed *= 1.1
             other_food_type = all_food[random.randint(0, 2)]
             respawn_other_food(other_food_type)
-            # food.rect.x = round(random.randrange(0, display_width - snake_size) // 10.0) * 10.0
-            # food.rect.y = round(random.randrange(0, display_height - snake_size) // 10.0) * 10.0
-            # food.reset()
             respawn_other_food("food")
 
         if sprite.collide_rect(snake, speed_down_food):
-            # speed_down_food.rect.x = round(random.randrange(0, display_width - snake_size) // 10.0) * 10.0
-            # speed_down_food.rect.y = round(random.randrange(0, display_height - snake_size) // 10.0) * 10.0
+            speed_down_food.kill()
             snake_speed *= 0.9
             other_food_type = all_food[random.randint(0, 2)]
             respawn_other_food(other_food_type)
-            # food.rect.x = round(random.randrange(0, display_width - snake_size) // 10.0) * 10.0
-            # food.rect.y = round(random.randrange(0, display_height - snake_size) // 10.0) * 10.0
-            # food.reset()
             respawn_other_food("food")
-
-
-
 
         if snake_length - 1 == 5:
             current_level += 1
