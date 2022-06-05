@@ -29,9 +29,6 @@ class GameSprite(sprite.Sprite):
     def food_reset(self):
         surf.blit(self.image, (self.rect.x, self.rect.y))
 
-    def self_kill(self):
-        self.kill()
-
 
 class Snake(GameSprite):
     def update(self, snake_size1):
@@ -73,18 +70,22 @@ class Snake(GameSprite):
 
 
 class Food(GameSprite):
+    def is_collide_with_snake(self):
+        if sprite.collide_rect(self, snake):
+            return True
+        else:
+            return False
+
+
+class SpeedUpFood(Food):
     pass
 
 
-class SpeedUpFood(GameSprite):
+class SpeedDownFood(Food):
     pass
 
 
-class SpeedDownFood(GameSprite):
-    pass
-
-
-class BadFood(GameSprite):
+class BadFood(Food):
     pass
 
 
@@ -140,29 +141,24 @@ def respawn_other_food(food_type):
     if food_type == "bad_food":
         for i in range(1):
             surf.fill((0, 255, 0))
-            bad_food_group.add(bad_food)
-            bad_food.self_kill()
             bad_food.rect.x = round(random.randrange(0, display_width - snake_size) // 10.0) * 10.0
             bad_food.rect.y = round(random.randrange(0, display_width - snake_size) // 10.0) * 10.0
             bad_food.food_reset()
     if food_type == "speed_up_food":
         for i in range(1):
             surf.fill((0, 255, 0))
-            speed_up_food.self_kill()
             speed_up_food.rect.x = round(random.randrange(0, display_width - snake_size) // 10.0) * 10.0
             speed_up_food.rect.y = round(random.randrange(0, display_width - snake_size) // 10.0) * 10.0
             speed_up_food.food_reset()
     if food_type == "speed_down_food":
         for i in range(1):
             surf.fill((0, 255, 0))
-            speed_down_food.self_kill()
             speed_down_food.rect.x = round(random.randrange(0, display_width - snake_size) // 10.0) * 10.0
             speed_down_food.rect.y = round(random.randrange(0, display_width - snake_size) // 10.0) * 10.0
             speed_down_food.food_reset()
     if food_type == "food":
         for i in range(1):
             surf.fill((0, 255, 0))
-            food.self_kill()
             food.rect.x = round(random.randrange(0, display_width - snake_size) // 10.0) * 10.0
             food.rect.y = round(random.randrange(0, display_width - snake_size) // 10.0) * 10.0
             food.food_reset()
@@ -187,28 +183,23 @@ snake_y = display_height // 2
 snake_speed = 10
 snake_size = 15
 snake = Snake(snake_image, snake_size, snake_size, snake_x, snake_y, snake_speed)
-print(snake.sprite_speed)
 # Food
-food_group = pygame.sprite.Group()
 food_image = 'food.png'
 food_x = round(random.randrange(0, display_width - snake_size) // 10.0) * 10.0
 food_y = round(random.randrange(0, display_height - snake_size) // 10.0) * 10.0
 food_size = 12
 food = Food(food_image, food_size, food_size, food_x, food_y, 0)
 # Speed up food
-speed_up_food_group = pygame.sprite.Group()
 speed_up_food_x = round(random.randrange(0, display_width - snake_size) // 10.0) * 10.0
 speed_up_food_y = round(random.randrange(0, display_height - snake_size) // 10.0) * 10.0
 speed_up_food_image = "speed_up.png"
 speed_up_food = SpeedUpFood(speed_up_food_image, food_size, food_size, speed_up_food_x, speed_up_food_y, 0)
 # Speed down food
-speed_down_food_group = pygame.sprite.Group()
 speed_down_food_x = round(random.randrange(0, display_width - snake_size) // 10.0) * 10.0
 speed_down_food_y = round(random.randrange(0, display_height - snake_size) // 10.0) * 10.0
 speed_down_food_image = "speed_down.png"
 speed_down_food = SpeedDownFood(speed_down_food_image, food_size, food_size, speed_down_food_x, speed_down_food_y, 0)
 # Points down food
-bad_food_group = pygame.sprite.Group()
 bad_food_x = round(random.randrange(0, display_width - snake_size) // 10.0) * 10.0
 bad_food_y = round(random.randrange(0, display_height - snake_size) // 10.0) * 10.0
 bad_food_image = "bad_food.png"
@@ -237,21 +228,25 @@ run = True
 snake_list = []
 snake_length = 1
 
-current_level = 1
-
 all_food = ["bad_food", "speed_up_food", "speed_down_food"]
 other_food_type = all_food[random.randint(0, 2)]
 
+food_collide_snake = False
+bad_food_collide_snake = False
+speed_up_food_collide_snake = False
+speed_down_food_collide_snake = False
 
-def start_the_game(current_level=1):
+def start_the_game(current_level=3):
     global run, x, end, snake, snake_speed, other_food_type, snake_length, lives_count, snake_x, snake_y
     while run:
-        keys = key.get_pressed()
+        food_collide_snake = False
+        bad_food_collide_snake = False
+        speed_up_food_collide_snake = False
+        speed_down_food_collide_snake = False
+
         for e in pygame.event.get():
             if e.type == QUIT:
                 sys.exit()
-            if e.type == K_ESCAPE:
-                pause_menu.mainloop(window)
 
         if not end:
             window.blit(hud_background, (0, 500))
@@ -300,14 +295,14 @@ def start_the_game(current_level=1):
                 snake.rect.y = display_height - snake_size
 
             if sprite.collide_rect(snake, food):
-                food.self_kill()
+                food_collide_snake = True
                 respawn_other_food("food")
                 snake_length += 1
                 other_food_type = all_food[random.randint(0, 2)]
                 respawn_other_food(other_food_type)
 
             if sprite.collide_rect(snake, bad_food):
-                bad_food.self_kill()
+                bad_food_collide_snake = True
                 if snake_length >= 1:
                     snake_length -= 1
                     del snake_list[len(snake_list) - 1]
@@ -318,14 +313,14 @@ def start_the_game(current_level=1):
                 respawn_other_food("food")
 
             if sprite.collide_rect(snake, speed_up_food):
-                speed_up_food.self_kill()
+                speed_up_food_collide_snake = True
                 snake_speed *= 1.1
                 other_food_type = all_food[random.randint(0, 2)]
                 respawn_other_food(other_food_type)
                 respawn_other_food("food")
 
             if sprite.collide_rect(snake, speed_down_food):
-                speed_down_food.self_kill()
+                speed_down_food_collide_snake = True
                 snake_speed *= 0.9
                 other_food_type = all_food[random.randint(0, 2)]
                 respawn_other_food(other_food_type)
@@ -343,9 +338,6 @@ def start_the_game(current_level=1):
                 snake_list.clear()
                 snake_list.append(snake_head)
                 lives_count = 3
-                direction = ''
-                x1_change = 0
-                y1_change = 0
                 window.blit(load, (0, 0))
                 display.update()
                 time.wait(1000)
@@ -589,15 +581,10 @@ def start_the_game(current_level=1):
 
         clock.tick(snake_speed)
 
+
 menu = pygame_menu.Menu('Welcome', 400, 300,
                        theme=pygame_menu.themes.THEME_BLUE)
 menu.add.text_input('Имя: ', default='Игрок 1')
 menu.add.button('Играть', start_the_game)
 menu.add.button('Выход', pygame_menu.events.EXIT)
 menu.mainloop(window)
-
-pause_menu = pygame_menu.Menu('Pause', 400, 300,
-                       theme=pygame_menu.themes.THEME_BLUE)
-pause_menu.add.button('Продолжить', start_the_game)
-pause_menu.add.button('Выход', pygame_menu.events.EXIT)
-# start_the_game()
