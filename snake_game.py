@@ -221,7 +221,7 @@ food_y = \
 food_size = 12
 food = Food(food_image, food_size, food_size, food_x, food_y, 0)
 # Speed up food
-speed_up_food_x =\
+speed_up_food_x = \
     round(random.randrange(0, display_width - snake_size)
           // 10.0) * 10.0
 speed_up_food_y = \
@@ -232,8 +232,12 @@ speed_up_food = SpeedUpFood(speed_up_food_image,
                             food_size, food_size,
                             speed_up_food_x, speed_up_food_y, 0)
 # Speed down food
-speed_down_food_x = round(random.randrange(0, display_width - snake_size) // 10.0) * 10.0
-speed_down_food_y = round(random.randrange(0, display_height - snake_size) // 10.0) * 10.0
+speed_down_food_x = \
+    round(random.randrange(0, display_width - snake_size)
+          // 10.0) * 10.0
+speed_down_food_y = \
+    round(random.randrange(0, display_height - snake_size)
+          // 10.0) * 10.0
 speed_down_food_image = "pictures/speed_down.png"
 speed_down_food = SpeedDownFood(speed_down_food_image,
                                 food_size, food_size,
@@ -280,6 +284,7 @@ food_collide_snake = False
 bad_food_collide_snake = False
 speed_up_food_collide_snake = False
 speed_down_food_collide_snake = False
+
 
 def start_the_game(current_level=1):
     global run, x, end, snake, snake_speed, \
@@ -336,7 +341,7 @@ def start_the_game(current_level=1):
                 snake.rect.x = 0
             elif snake.rect.x < 0:
                 snake.rect.x = display_width
-            elif snake.rect.y >= display_height-10:
+            elif snake.rect.y >= display_height - 10:
                 snake.rect.y = 0
                 lives_count -= 1
             elif snake.rect.y < 0:
@@ -542,7 +547,7 @@ def start_the_game(current_level=1):
                 wall_height = 100
                 wall_x = 240
                 wall_y = 0
-                vertical_wall_2 =\
+                vertical_wall_2 = \
                     Wall(color_1, color_2, color_3,
                          wall_width, wall_height, wall_x, wall_y)
                 wall_width = 5
@@ -735,7 +740,7 @@ def start_the_game(current_level=1):
 
 
 menu = pygame_menu.Menu('Welcome', 400, 300,
-                       theme=pygame_menu.themes.THEME_BLUE)
+                        theme=pygame_menu.themes.THEME_BLUE)
 menu.add.text_input('Имя: ', default='Игрок 1')
 menu.add.button('Играть', start_the_game)
 menu.add.button('Выход', pygame_menu.events.EXIT)
