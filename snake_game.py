@@ -169,22 +169,22 @@ display_width = 500
 display_height = 500
 actual_display_height = 600
 window = pygame.display.set_mode((display_width, actual_display_height))
-background = transform.scale(image.load("background.png"), (display_width, display_height))
-load = transform.scale(image.load("loading.jpg"), (display_width, display_height))
+background = transform.scale(image.load("pictures/background.png"), (display_width, display_height))
+load = transform.scale(image.load("pictures/loading.jpg"), (display_width, display_height))
 surf = pygame.Surface((display_width, display_height))
 surf.fill((0, 255, 0))
 surf.set_alpha(150)
 # HUD Background
-hud_background = transform.scale(image.load("hud_background.jpg"), (display_width, 150))
+hud_background = transform.scale(image.load("pictures/hud_background.jpg"), (display_width, 150))
 # Snake
-snake_image = 'snake.png'
+snake_image = 'pictures/snake.png'
 snake_x = display_width // 2
 snake_y = display_height // 2
 snake_speed = 10
 snake_size = 15
 snake = Snake(snake_image, snake_size, snake_size, snake_x, snake_y, snake_speed)
 # Food
-food_image = 'food.png'
+food_image = 'pictures/food.png'
 food_x = round(random.randrange(0, display_width - snake_size) // 10.0) * 10.0
 food_y = round(random.randrange(0, display_height - snake_size) // 10.0) * 10.0
 food_size = 12
@@ -192,17 +192,17 @@ food = Food(food_image, food_size, food_size, food_x, food_y, 0)
 # Speed up food
 speed_up_food_x = round(random.randrange(0, display_width - snake_size) // 10.0) * 10.0
 speed_up_food_y = round(random.randrange(0, display_height - snake_size) // 10.0) * 10.0
-speed_up_food_image = "speed_up.png"
+speed_up_food_image = "pictures/speed_up.png"
 speed_up_food = SpeedUpFood(speed_up_food_image, food_size, food_size, speed_up_food_x, speed_up_food_y, 0)
 # Speed down food
 speed_down_food_x = round(random.randrange(0, display_width - snake_size) // 10.0) * 10.0
 speed_down_food_y = round(random.randrange(0, display_height - snake_size) // 10.0) * 10.0
-speed_down_food_image = "speed_down.png"
+speed_down_food_image = "pictures/speed_down.png"
 speed_down_food = SpeedDownFood(speed_down_food_image, food_size, food_size, speed_down_food_x, speed_down_food_y, 0)
 # Points down food
 bad_food_x = round(random.randrange(0, display_width - snake_size) // 10.0) * 10.0
 bad_food_y = round(random.randrange(0, display_height - snake_size) // 10.0) * 10.0
-bad_food_image = "bad_food.png"
+bad_food_image = "pictures/bad_food.png"
 bad_food = BadFood(bad_food_image, food_size, food_size, bad_food_x, bad_food_y, 0)
 # WALLS
 color_1 = 0
@@ -211,7 +211,7 @@ color_3 = 0
 
 display.update()
 display.set_caption('Snake')
-game_over = transform.scale(image.load("game_over.png"), (display_width, display_height))
+game_over = transform.scale(image.load("pictures/game_over.png"), (display_width, display_height))
 
 clock = pygame.time.Clock()
 
@@ -220,7 +220,7 @@ x1_change = 0
 y1_change = 0
 
 lives_count = 3
-lives_img = transform.scale(image.load("heart.png"), (24, 24))
+lives_img = transform.scale(image.load("pictures/heart.png"), (24, 24))
 
 end = False
 run = True
@@ -236,7 +236,7 @@ bad_food_collide_snake = False
 speed_up_food_collide_snake = False
 speed_down_food_collide_snake = False
 
-def start_the_game(current_level=3):
+def start_the_game(current_level=1):
     global run, x, end, snake, snake_speed, other_food_type, snake_length, lives_count, snake_x, snake_y
     while run:
         food_collide_snake = False
