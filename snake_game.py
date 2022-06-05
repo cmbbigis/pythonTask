@@ -9,10 +9,12 @@ pygame.init()
 
 
 class GameSprite(sprite.Sprite):
-    def __init__(self, sprite_image, image_width, image_height, sprite_x, sprite_y, sprite_speed):
+    def __init__(self, sprite_image, image_width, image_height,
+                 sprite_x, sprite_y, sprite_speed):
         sprite.Sprite.__init__(self)
 
-        self.image = transform.scale(image.load(sprite_image), (image_width, image_height))
+        self.image = transform.scale(image.load(sprite_image),
+                                     (image_width, image_height))
 
         self.rect = self.image.get_rect()
 
@@ -90,7 +92,8 @@ class BadFood(Food):
 
 
 class Wall(sprite.Sprite):
-    def __init__(self, color_1, color_2, color_3, wall_width, wall_height, wall_x, wall_y):
+    def __init__(self, color_1, color_2, color_3,
+                 wall_width, wall_height, wall_x, wall_y):
         sprite.Sprite.__init__(self)
         self.width = wall_width
         self.height = wall_height
@@ -118,7 +121,8 @@ def player_score(score):
 
 def level(current_level):
     level_font = pygame.font.SysFont("Calibri", 24, True)
-    value = level_font.render("Level " + str(current_level), True, (102, 51, 0))
+    value = level_font.render("Level " + str(current_level),
+                              True, (102, 51, 0))
     window.blit(value, [215, 500])
     window.blit(value, [215, 500])
 
@@ -141,26 +145,42 @@ def respawn_other_food(food_type):
     if food_type == "bad_food":
         for i in range(1):
             surf.fill((0, 255, 0))
-            bad_food.rect.x = round(random.randrange(0, display_width - snake_size) // 10.0) * 10.0
-            bad_food.rect.y = round(random.randrange(0, display_width - snake_size) // 10.0) * 10.0
+            bad_food.rect.x = \
+                round(random.randrange(0, display_width - snake_size)
+                      // 10.0) * 10.0
+            bad_food.rect.y = \
+                round(random.randrange(0, display_width - snake_size)
+                      // 10.0) * 10.0
             bad_food.food_reset()
     if food_type == "speed_up_food":
         for i in range(1):
             surf.fill((0, 255, 0))
-            speed_up_food.rect.x = round(random.randrange(0, display_width - snake_size) // 10.0) * 10.0
-            speed_up_food.rect.y = round(random.randrange(0, display_width - snake_size) // 10.0) * 10.0
+            speed_up_food.rect.x = \
+                round(random.randrange(0, display_width - snake_size)
+                      // 10.0) * 10.0
+            speed_up_food.rect.y = \
+                round(random.randrange(0, display_width - snake_size)
+                      // 10.0) * 10.0
             speed_up_food.food_reset()
     if food_type == "speed_down_food":
         for i in range(1):
             surf.fill((0, 255, 0))
-            speed_down_food.rect.x = round(random.randrange(0, display_width - snake_size) // 10.0) * 10.0
-            speed_down_food.rect.y = round(random.randrange(0, display_width - snake_size) // 10.0) * 10.0
+            speed_down_food.rect.x = \
+                round(random.randrange(0, display_width - snake_size)
+                      // 10.0) * 10.0
+            speed_down_food.rect.y = \
+                round(random.randrange(0, display_width - snake_size)
+                      // 10.0) * 10.0
             speed_down_food.food_reset()
     if food_type == "food":
         for i in range(1):
             surf.fill((0, 255, 0))
-            food.rect.x = round(random.randrange(0, display_width - snake_size) // 10.0) * 10.0
-            food.rect.y = round(random.randrange(0, display_width - snake_size) // 10.0) * 10.0
+            food.rect.x = \
+                round(random.randrange(0, display_width - snake_size)
+                      // 10.0) * 10.0
+            food.rect.y = \
+                round(random.randrange(0, display_width - snake_size)
+                      // 10.0) * 10.0
             food.food_reset()
 
 
@@ -168,42 +188,66 @@ def respawn_other_food(food_type):
 display_width = 500
 display_height = 500
 actual_display_height = 600
-window = pygame.display.set_mode((display_width, actual_display_height))
-background = transform.scale(image.load("pictures/background.png"), (display_width, display_height))
-load = transform.scale(image.load("pictures/loading.jpg"), (display_width, display_height))
+window = pygame.display.set_mode(
+    (display_width, actual_display_height))
+background = transform.scale(
+    image.load("pictures/background.png"),
+    (display_width, display_height))
+load = transform.scale(
+    image.load("pictures/loading.jpg"),
+    (display_width, display_height))
 surf = pygame.Surface((display_width, display_height))
 surf.fill((0, 255, 0))
 surf.set_alpha(150)
 # HUD Background
-hud_background = transform.scale(image.load("pictures/hud_background.jpg"), (display_width, 150))
+hud_background = transform.scale(
+    image.load("pictures/hud_background.jpg"), (display_width, 150))
 # Snake
 snake_image = 'pictures/snake.png'
 snake_x = display_width // 2
 snake_y = display_height // 2
 snake_speed = 10
 snake_size = 15
-snake = Snake(snake_image, snake_size, snake_size, snake_x, snake_y, snake_speed)
+snake = Snake(snake_image, snake_size,
+              snake_size, snake_x, snake_y, snake_speed)
 # Food
 food_image = 'pictures/food.png'
-food_x = round(random.randrange(0, display_width - snake_size) // 10.0) * 10.0
-food_y = round(random.randrange(0, display_height - snake_size) // 10.0) * 10.0
+food_x = \
+    round(random.randrange(0, display_width - snake_size)
+          // 10.0) * 10.0
+food_y = \
+    round(random.randrange(0, display_height - snake_size)
+          // 10.0) * 10.0
 food_size = 12
 food = Food(food_image, food_size, food_size, food_x, food_y, 0)
 # Speed up food
-speed_up_food_x = round(random.randrange(0, display_width - snake_size) // 10.0) * 10.0
-speed_up_food_y = round(random.randrange(0, display_height - snake_size) // 10.0) * 10.0
+speed_up_food_x =\
+    round(random.randrange(0, display_width - snake_size)
+          // 10.0) * 10.0
+speed_up_food_y = \
+    round(random.randrange(0, display_height - snake_size)
+          // 10.0) * 10.0
 speed_up_food_image = "pictures/speed_up.png"
-speed_up_food = SpeedUpFood(speed_up_food_image, food_size, food_size, speed_up_food_x, speed_up_food_y, 0)
+speed_up_food = SpeedUpFood(speed_up_food_image,
+                            food_size, food_size,
+                            speed_up_food_x, speed_up_food_y, 0)
 # Speed down food
 speed_down_food_x = round(random.randrange(0, display_width - snake_size) // 10.0) * 10.0
 speed_down_food_y = round(random.randrange(0, display_height - snake_size) // 10.0) * 10.0
 speed_down_food_image = "pictures/speed_down.png"
-speed_down_food = SpeedDownFood(speed_down_food_image, food_size, food_size, speed_down_food_x, speed_down_food_y, 0)
+speed_down_food = SpeedDownFood(speed_down_food_image,
+                                food_size, food_size,
+                                speed_down_food_x, speed_down_food_y, 0)
 # Points down food
-bad_food_x = round(random.randrange(0, display_width - snake_size) // 10.0) * 10.0
-bad_food_y = round(random.randrange(0, display_height - snake_size) // 10.0) * 10.0
+bad_food_x = \
+    round(random.randrange(0, display_width - snake_size)
+          // 10.0) * 10.0
+bad_food_y = \
+    round(random.randrange(0, display_height - snake_size)
+          // 10.0) * 10.0
 bad_food_image = "pictures/bad_food.png"
-bad_food = BadFood(bad_food_image, food_size, food_size, bad_food_x, bad_food_y, 0)
+bad_food = BadFood(bad_food_image, food_size,
+                   food_size, bad_food_x, bad_food_y, 0)
 # WALLS
 color_1 = 0
 color_2 = 0
@@ -211,7 +255,8 @@ color_3 = 0
 
 display.update()
 display.set_caption('Snake')
-game_over = transform.scale(image.load("pictures/game_over.png"), (display_width, display_height))
+game_over = transform.scale(image.load("pictures/game_over.png"),
+                            (display_width, display_height))
 
 clock = pygame.time.Clock()
 
@@ -237,7 +282,8 @@ speed_up_food_collide_snake = False
 speed_down_food_collide_snake = False
 
 def start_the_game(current_level=1):
-    global run, x, end, snake, snake_speed, other_food_type, snake_length, lives_count, snake_x, snake_y
+    global run, x, end, snake, snake_speed, \
+        other_food_type, snake_length, lives_count, snake_x, snake_y
     while run:
         food_collide_snake = False
         bad_food_collide_snake = False
@@ -276,8 +322,10 @@ def start_the_game(current_level=1):
                 if x == snake_head:
                     lives_count -= 1
 
-            if snake.rect.x > display_width or snake.rect.x < 0 or snake.rect.y > display_height \
-                    or snake.rect.y < 0:
+            if snake.rect.x > display_width or \
+                    snake.rect.x < 0 or \
+                    snake.rect.y > display_height or \
+                    snake.rect.y < 0:
                 lives_count -= 1
 
             if lives_count == 0:
@@ -347,33 +395,49 @@ def start_the_game(current_level=1):
                 wall_height = 100
                 wall_x = 240
                 wall_y = 400
-                vertical_wall_1 = Wall(color_1, color_2, color_3, wall_width, wall_height, wall_x, wall_y)
+                vertical_wall_1 = \
+                    Wall(color_1, color_2, color_3,
+                         wall_width, wall_height, wall_x, wall_y)
                 wall_width = 10
                 wall_height = 100
                 wall_x = 240
                 wall_y = 0
-                vertical_wall_2 = Wall(color_1, color_2, color_3, wall_width, wall_height, wall_x, wall_y)
+                vertical_wall_2 = \
+                    Wall(color_1, color_2, color_3,
+                         wall_width, wall_height, wall_x, wall_y)
                 wall_width = 100
                 wall_height = 10
                 wall_x = 0
                 wall_y = 240
-                horizontal_wall_1 = Wall(color_1, color_2, color_3, wall_width, wall_height, wall_x, wall_y)
+                horizontal_wall_1 = \
+                    Wall(color_1, color_2, color_3,
+                         wall_width, wall_height, wall_x, wall_y)
                 wall_width = 100
                 wall_height = 10
                 wall_x = 400
                 wall_y = 240
-                horizontal_wall_2 = Wall(color_1, color_2, color_3, wall_width, wall_height, wall_x, wall_y)
+                horizontal_wall_2 = \
+                    Wall(color_1, color_2, color_3,
+                         wall_width, wall_height, wall_x, wall_y)
                 vertical_wall_1.draw_rect()
                 vertical_wall_2.draw_rect()
                 horizontal_wall_1.draw_rect()
                 horizontal_wall_2.draw_rect()
-                if sprite.collide_rect(horizontal_wall_1, food) or sprite.collide_rect(horizontal_wall_2, food) or \
-                        sprite.collide_rect(vertical_wall_1, food) or sprite.collide_rect(vertical_wall_2, food):
-                    food.rect.x = round(random.randrange(0, display_width - snake_size) // 10.0) * 10.0
-                    food.rect.y = round(random.randrange(0, display_height - snake_size) // 10.0) * 10.0
+                if sprite.collide_rect(horizontal_wall_1, food) or \
+                        sprite.collide_rect(horizontal_wall_2, food) or \
+                        sprite.collide_rect(vertical_wall_1, food) or \
+                        sprite.collide_rect(vertical_wall_2, food):
+                    food.rect.x = \
+                        round(random.randrange(0, display_width - snake_size)
+                              // 10.0) * 10.0
+                    food.rect.y = \
+                        round(random.randrange(0, display_height - snake_size)
+                              // 10.0) * 10.0
                     food.reset()
-                if sprite.collide_rect(horizontal_wall_1, snake) or sprite.collide_rect(horizontal_wall_2, snake) or \
-                        sprite.collide_rect(vertical_wall_1, snake) or sprite.collide_rect(vertical_wall_2, snake):
+                if sprite.collide_rect(horizontal_wall_1, snake) or \
+                        sprite.collide_rect(horizontal_wall_2, snake) or \
+                        sprite.collide_rect(vertical_wall_1, snake) or \
+                        sprite.collide_rect(vertical_wall_2, snake):
                     lives_count -= 1
 
             if current_level == 3:
@@ -381,42 +445,58 @@ def start_the_game(current_level=1):
                 wall_height = 100
                 wall_x = 240
                 wall_y = 400
-                vertical_wall_1 = Wall(color_1, color_2, color_3, wall_width, wall_height, wall_x, wall_y)
+                vertical_wall_1 = \
+                    Wall(color_1, color_2, color_3,
+                         wall_width, wall_height, wall_x, wall_y)
                 wall_width = 10
                 wall_height = 100
                 wall_x = 240
                 wall_y = 0
-                vertical_wall_2 = Wall(color_1, color_2, color_3, wall_width, wall_height, wall_x, wall_y)
+                vertical_wall_2 = \
+                    Wall(color_1, color_2, color_3,
+                         wall_width, wall_height, wall_x, wall_y)
                 wall_width = 5
                 wall_height = 60
                 wall_x = 110
                 wall_y = 70
-                vertical_wall_3 = Wall(color_1, color_2, color_3, wall_width, wall_height, wall_x, wall_y)
+                vertical_wall_3 = \
+                    Wall(color_1, color_2, color_3,
+                         wall_width, wall_height, wall_x, wall_y)
                 wall_width = 5
                 wall_height = 60
                 wall_x = 390
                 wall_y = 70
-                vertical_wall_4 = Wall(color_1, color_2, color_3, wall_width, wall_height, wall_x, wall_y)
+                vertical_wall_4 = \
+                    Wall(color_1, color_2, color_3,
+                         wall_width, wall_height, wall_x, wall_y)
                 wall_width = 5
                 wall_height = 60
                 wall_x = 390
                 wall_y = 370
-                vertical_wall_5 = Wall(color_1, color_2, color_3, wall_width, wall_height, wall_x, wall_y)
+                vertical_wall_5 = \
+                    Wall(color_1, color_2, color_3,
+                         wall_width, wall_height, wall_x, wall_y)
                 wall_width = 5
                 wall_height = 60
                 wall_x = 110
                 wall_y = 370
-                vertical_wall_6 = Wall(color_1, color_2, color_3, wall_width, wall_height, wall_x, wall_y)
+                vertical_wall_6 = \
+                    Wall(color_1, color_2, color_3,
+                         wall_width, wall_height, wall_x, wall_y)
                 wall_width = 100
                 wall_height = 10
                 wall_x = 0
                 wall_y = 240
-                horizontal_wall_1 = Wall(color_1, color_2, color_3, wall_width, wall_height, wall_x, wall_y)
+                horizontal_wall_1 = \
+                    Wall(color_1, color_2, color_3,
+                         wall_width, wall_height, wall_x, wall_y)
                 wall_width = 100
                 wall_height = 10
                 wall_x = 400
                 wall_y = 240
-                horizontal_wall_2 = Wall(color_1, color_2, color_3, wall_width, wall_height, wall_x, wall_y)
+                horizontal_wall_2 = \
+                    Wall(color_1, color_2, color_3,
+                         wall_width, wall_height, wall_x, wall_y)
                 vertical_wall_1.draw_rect()
                 vertical_wall_2.draw_rect()
                 vertical_wall_3.draw_rect()
@@ -425,17 +505,29 @@ def start_the_game(current_level=1):
                 vertical_wall_6.draw_rect()
                 horizontal_wall_1.draw_rect()
                 horizontal_wall_2.draw_rect()
-                if sprite.collide_rect(horizontal_wall_1, food) or sprite.collide_rect(horizontal_wall_2, food) or \
-                        sprite.collide_rect(vertical_wall_1, food) or sprite.collide_rect(vertical_wall_2, food) or \
-                        sprite.collide_rect(vertical_wall_3, food) or sprite.collide_rect(vertical_wall_4, food) or \
-                        sprite.collide_rect(vertical_wall_5, food) or sprite.collide_rect(vertical_wall_6, food):
-                    food.rect.x = round(random.randrange(0, display_width - snake_size) // 10.0) * 10.0
-                    food.rect.y = round(random.randrange(0, display_height - snake_size) // 10.0) * 10.0
+                if sprite.collide_rect(horizontal_wall_1, food) or \
+                        sprite.collide_rect(horizontal_wall_2, food) or \
+                        sprite.collide_rect(vertical_wall_1, food) or \
+                        sprite.collide_rect(vertical_wall_2, food) or \
+                        sprite.collide_rect(vertical_wall_3, food) or \
+                        sprite.collide_rect(vertical_wall_4, food) or \
+                        sprite.collide_rect(vertical_wall_5, food) or \
+                        sprite.collide_rect(vertical_wall_6, food):
+                    food.rect.x = \
+                        round(random.randrange(0, display_width - snake_size)
+                              // 10.0) * 10.0
+                    food.rect.y = \
+                        round(random.randrange(0, display_height - snake_size)
+                              // 10.0) * 10.0
                     food.reset()
-                if sprite.collide_rect(horizontal_wall_1, snake) or sprite.collide_rect(horizontal_wall_2, snake) or \
-                        sprite.collide_rect(vertical_wall_1, snake) or sprite.collide_rect(vertical_wall_2, snake) or \
-                        sprite.collide_rect(vertical_wall_3, snake) or sprite.collide_rect(vertical_wall_4, snake) or \
-                        sprite.collide_rect(vertical_wall_5, snake) or sprite.collide_rect(vertical_wall_6, snake):
+                if sprite.collide_rect(horizontal_wall_1, snake) or \
+                        sprite.collide_rect(horizontal_wall_2, snake) or \
+                        sprite.collide_rect(vertical_wall_1, snake) or \
+                        sprite.collide_rect(vertical_wall_2, snake) or \
+                        sprite.collide_rect(vertical_wall_3, snake) or \
+                        sprite.collide_rect(vertical_wall_4, snake) or \
+                        sprite.collide_rect(vertical_wall_5, snake) or \
+                        sprite.collide_rect(vertical_wall_6, snake):
                     lives_count -= 1
 
             if current_level == 4:
@@ -443,47 +535,65 @@ def start_the_game(current_level=1):
                 wall_height = 100
                 wall_x = 240
                 wall_y = 400
-                vertical_wall_1 = Wall(color_1, color_2, color_3, wall_width, wall_height, wall_x, wall_y)
+                vertical_wall_1 = \
+                    Wall(color_1, color_2, color_3,
+                         wall_width, wall_height, wall_x, wall_y)
                 wall_width = 10
                 wall_height = 100
                 wall_x = 240
                 wall_y = 0
-                vertical_wall_2 = Wall(color_1, color_2, color_3, wall_width, wall_height, wall_x, wall_y)
+                vertical_wall_2 =\
+                    Wall(color_1, color_2, color_3,
+                         wall_width, wall_height, wall_x, wall_y)
                 wall_width = 5
                 wall_height = 60
                 wall_x = 110
                 wall_y = 70
-                vertical_wall_3 = Wall(color_1, color_2, color_3, wall_width, wall_height, wall_x, wall_y)
+                vertical_wall_3 = \
+                    Wall(color_1, color_2, color_3,
+                         wall_width, wall_height, wall_x, wall_y)
                 wall_width = 5
                 wall_height = 60
                 wall_x = 390
                 wall_y = 70
-                vertical_wall_4 = Wall(color_1, color_2, color_3, wall_width, wall_height, wall_x, wall_y)
+                vertical_wall_4 = \
+                    Wall(color_1, color_2, color_3,
+                         wall_width, wall_height, wall_x, wall_y)
                 wall_width = 5
                 wall_height = 60
                 wall_x = 390
                 wall_y = 370
-                vertical_wall_5 = Wall(color_1, color_2, color_3, wall_width, wall_height, wall_x, wall_y)
+                vertical_wall_5 = \
+                    Wall(color_1, color_2, color_3,
+                         wall_width, wall_height, wall_x, wall_y)
                 wall_width = 5
                 wall_height = 60
                 wall_x = 110
                 wall_y = 370
-                vertical_wall_6 = Wall(color_1, color_2, color_3, wall_width, wall_height, wall_x, wall_y)
+                vertical_wall_6 = \
+                    Wall(color_1, color_2, color_3,
+                         wall_width, wall_height, wall_x, wall_y)
                 wall_width = 100
                 wall_height = 10
                 wall_x = 0
                 wall_y = 240
-                horizontal_wall_1 = Wall(color_1, color_2, color_3, wall_width, wall_height, wall_x, wall_y)
+                horizontal_wall_1 = \
+                    Wall(color_1, color_2, color_3,
+                         wall_width, wall_height, wall_x, wall_y)
                 wall_width = 100
                 wall_height = 10
                 wall_x = 400
                 wall_y = 240
-                horizontal_wall_2 = Wall(color_1, color_2, color_3, wall_width, wall_height, wall_x, wall_y)
+                horizontal_wall_2 = \
+                    Wall(color_1, color_2, color_3,
+                         wall_width, wall_height, wall_x, wall_y)
                 wall_width = 50
                 wall_height = 50
                 wall_x = 220
                 wall_y = 220
-                central_square = Wall(color_1, color_2, color_3, wall_width, wall_height, wall_x, wall_y)
+                central_square = \
+                    Wall(color_1, color_2, color_3,
+                         wall_width, wall_height, wall_x, wall_y)
                 vertical_wall_1.draw_rect()
                 vertical_wall_2.draw_rect()
                 vertical_wall_3.draw_rect()
@@ -493,18 +603,30 @@ def start_the_game(current_level=1):
                 horizontal_wall_1.draw_rect()
                 horizontal_wall_2.draw_rect()
                 central_square.draw_rect()
-                if sprite.collide_rect(horizontal_wall_1, food) or sprite.collide_rect(horizontal_wall_2, food) or \
-                        sprite.collide_rect(vertical_wall_1, food) or sprite.collide_rect(vertical_wall_2, food) or \
-                        sprite.collide_rect(vertical_wall_3, food) or sprite.collide_rect(vertical_wall_4, food) or \
-                        sprite.collide_rect(vertical_wall_5, food) or sprite.collide_rect(vertical_wall_6, food) or \
+                if sprite.collide_rect(horizontal_wall_1, food) or \
+                        sprite.collide_rect(horizontal_wall_2, food) or \
+                        sprite.collide_rect(vertical_wall_1, food) or \
+                        sprite.collide_rect(vertical_wall_2, food) or \
+                        sprite.collide_rect(vertical_wall_3, food) or \
+                        sprite.collide_rect(vertical_wall_4, food) or \
+                        sprite.collide_rect(vertical_wall_5, food) or \
+                        sprite.collide_rect(vertical_wall_6, food) or \
                         sprite.collide_rect(central_square, food):
-                    food.rect.x = round(random.randrange(0, display_width - snake_size) // 10.0) * 10.0
-                    food.rect.y = round(random.randrange(0, display_height - snake_size) // 10.0) * 10.0
+                    food.rect.x = \
+                        round(random.randrange(0, display_width - snake_size)
+                              // 10.0) * 10.0
+                    food.rect.y = \
+                        round(random.randrange(0, display_height - snake_size)
+                              // 10.0) * 10.0
                     food.reset()
-                if sprite.collide_rect(horizontal_wall_1, snake) or sprite.collide_rect(horizontal_wall_2, snake) or \
-                        sprite.collide_rect(vertical_wall_1, snake) or sprite.collide_rect(vertical_wall_2, snake) or \
-                        sprite.collide_rect(vertical_wall_3, snake) or sprite.collide_rect(vertical_wall_4, snake) or \
-                        sprite.collide_rect(vertical_wall_5, snake) or sprite.collide_rect(vertical_wall_6, snake) or \
+                if sprite.collide_rect(horizontal_wall_1, snake) or \
+                        sprite.collide_rect(horizontal_wall_2, snake) or \
+                        sprite.collide_rect(vertical_wall_1, snake) or \
+                        sprite.collide_rect(vertical_wall_2, snake) or \
+                        sprite.collide_rect(vertical_wall_3, snake) or \
+                        sprite.collide_rect(vertical_wall_4, snake) or \
+                        sprite.collide_rect(vertical_wall_5, snake) or \
+                        sprite.collide_rect(vertical_wall_6, snake) or \
                         sprite.collide_rect(central_square, snake):
                     lives_count -= 1
 
@@ -513,47 +635,65 @@ def start_the_game(current_level=1):
                 wall_height = 100
                 wall_x = 240
                 wall_y = 400
-                vertical_wall_1 = Wall(color_1, color_2, color_3, wall_width, wall_height, wall_x, wall_y)
+                vertical_wall_1 = \
+                    Wall(color_1, color_2, color_3,
+                         wall_width, wall_height, wall_x, wall_y)
                 wall_width = 10
                 wall_height = 100
                 wall_x = 240
                 wall_y = 0
-                vertical_wall_2 = Wall(color_1, color_2, color_3, wall_width, wall_height, wall_x, wall_y)
+                vertical_wall_2 = \
+                    Wall(color_1, color_2, color_3,
+                         wall_width, wall_height, wall_x, wall_y)
                 wall_width = 40
                 wall_height = 40
                 wall_x = 90
                 wall_y = 70
-                vertical_wall_3 = Wall(color_1, color_2, color_3, wall_width, wall_height, wall_x, wall_y)
+                vertical_wall_3 = \
+                    Wall(color_1, color_2, color_3,
+                         wall_width, wall_height, wall_x, wall_y)
                 wall_width = 40
                 wall_height = 40
                 wall_x = 380
                 wall_y = 70
-                vertical_wall_4 = Wall(color_1, color_2, color_3, wall_width, wall_height, wall_x, wall_y)
+                vertical_wall_4 = \
+                    Wall(color_1, color_2, color_3,
+                         wall_width, wall_height, wall_x, wall_y)
                 wall_width = 40
                 wall_height = 40
                 wall_x = 380
                 wall_y = 370
-                vertical_wall_5 = Wall(color_1, color_2, color_3, wall_width, wall_height, wall_x, wall_y)
+                vertical_wall_5 = \
+                    Wall(color_1, color_2, color_3,
+                         wall_width, wall_height, wall_x, wall_y)
                 wall_width = 40
                 wall_height = 40
                 wall_x = 90
                 wall_y = 370
-                vertical_wall_6 = Wall(color_1, color_2, color_3, wall_width, wall_height, wall_x, wall_y)
+                vertical_wall_6 = \
+                    Wall(color_1, color_2, color_3,
+                         wall_width, wall_height, wall_x, wall_y)
                 wall_width = 100
                 wall_height = 10
                 wall_x = 0
                 wall_y = 240
-                horizontal_wall_1 = Wall(color_1, color_2, color_3, wall_width, wall_height, wall_x, wall_y)
+                horizontal_wall_1 = \
+                    Wall(color_1, color_2, color_3,
+                         wall_width, wall_height, wall_x, wall_y)
                 wall_width = 100
                 wall_height = 10
                 wall_x = 400
                 wall_y = 240
-                horizontal_wall_2 = Wall(color_1, color_2, color_3, wall_width, wall_height, wall_x, wall_y)
+                horizontal_wall_2 = \
+                    Wall(color_1, color_2, color_3,
+                         wall_width, wall_height, wall_x, wall_y)
                 wall_width = 50
                 wall_height = 50
                 wall_x = 220
                 wall_y = 220
-                central_square = Wall(color_1, color_2, color_3, wall_width, wall_height, wall_x, wall_y)
+                central_square = \
+                    Wall(color_1, color_2, color_3,
+                         wall_width, wall_height, wall_x, wall_y)
                 vertical_wall_1.draw_rect()
                 vertical_wall_2.draw_rect()
                 vertical_wall_3.draw_rect()
@@ -563,18 +703,30 @@ def start_the_game(current_level=1):
                 horizontal_wall_1.draw_rect()
                 horizontal_wall_2.draw_rect()
                 central_square.draw_rect()
-                if sprite.collide_rect(horizontal_wall_1, food) or sprite.collide_rect(horizontal_wall_2, food) or \
-                        sprite.collide_rect(vertical_wall_1, food) or sprite.collide_rect(vertical_wall_2, food) or \
-                        sprite.collide_rect(vertical_wall_3, food) or sprite.collide_rect(vertical_wall_4, food) or \
-                        sprite.collide_rect(vertical_wall_5, food) or sprite.collide_rect(vertical_wall_6, food) or \
+                if sprite.collide_rect(horizontal_wall_1, food) \
+                        or sprite.collide_rect(horizontal_wall_2, food) or \
+                        sprite.collide_rect(vertical_wall_1, food) \
+                        or sprite.collide_rect(vertical_wall_2, food) or \
+                        sprite.collide_rect(vertical_wall_3, food) \
+                        or sprite.collide_rect(vertical_wall_4, food) or \
+                        sprite.collide_rect(vertical_wall_5, food) \
+                        or sprite.collide_rect(vertical_wall_6, food) or \
                         sprite.collide_rect(central_square, food):
-                    food.rect.x = round(random.randrange(0, display_width - snake_size) // 10.0) * 10.0
-                    food.rect.y = round(random.randrange(0, display_height - snake_size) // 10.0) * 10.0
+                    food.rect.x = \
+                        round(random.randrange(0, display_width - snake_size)
+                              // 10.0) * 10.0
+                    food.rect.y = \
+                        round(random.randrange(0, display_height - snake_size)
+                              // 10.0) * 10.0
                     food.reset()
-                if sprite.collide_rect(horizontal_wall_1, snake) or sprite.collide_rect(horizontal_wall_2, snake) or \
-                        sprite.collide_rect(vertical_wall_1, snake) or sprite.collide_rect(vertical_wall_2, snake) or \
-                        sprite.collide_rect(vertical_wall_3, snake) or sprite.collide_rect(vertical_wall_4, snake) or \
-                        sprite.collide_rect(vertical_wall_5, snake) or sprite.collide_rect(vertical_wall_6, snake) or \
+                if sprite.collide_rect(horizontal_wall_1, snake) \
+                        or sprite.collide_rect(horizontal_wall_2, snake) or \
+                        sprite.collide_rect(vertical_wall_1, snake) \
+                        or sprite.collide_rect(vertical_wall_2, snake) or \
+                        sprite.collide_rect(vertical_wall_3, snake) \
+                        or sprite.collide_rect(vertical_wall_4, snake) or \
+                        sprite.collide_rect(vertical_wall_5, snake) \
+                        or sprite.collide_rect(vertical_wall_6, snake) or \
                         sprite.collide_rect(central_square, snake):
                     lives_count -= 1
             display.update()
